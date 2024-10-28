@@ -3,10 +3,11 @@ import { Button } from '../_components/ui/button'
 
 import { DataTable } from '../_components/ui/data-table'
 import { productsColums } from './_components/table-columns'
-import { getProducts } from '../_data-access/product/get-products'
 
 const ProductsPage = async () => {
-    const products = await getProducts()
+    const products = await fetch('http://localhost:3000/api/products').then(
+        (res) => res.json()
+    )
 
     return (
         <div className="roundend-lg m-8 w-full space-y-8 bg-white px-8 py-8">
