@@ -1,13 +1,11 @@
 import { DataTable } from '../_components/ui/data-table'
 import { productsColums } from './_components/table-columns'
-import { cachedGetProducts } from '../_data-access/product/get-products'
+import CreateProductButton from './_components/create-product-button'
 
-import AddProductButton from './_components/add-product-button'
-
-export const dynamic = 'force-dynamic'
+import { getProducts } from '../_data-access/product/get-products'
 
 const ProductsPage = async () => {
-    const products = await cachedGetProducts()
+    const products = await getProducts()
     return (
         <div className="roundend-lg m-8 w-full space-y-8 bg-white px-8 py-8">
             <div className="flex w-full items-center justify-between">
@@ -19,7 +17,7 @@ const ProductsPage = async () => {
                 </div>
 
                 <div className="self-end">
-                    <AddProductButton />
+                    <CreateProductButton />
                 </div>
             </div>
 

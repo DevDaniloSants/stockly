@@ -1,7 +1,7 @@
 'use client'
 
-import { z } from 'zod'
-import { Plus } from 'lucide-react'
+import { NumericFormat } from 'react-number-format'
+import { Loader2Icon, Plus } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -24,30 +24,19 @@ import {
     FormMessage,
 } from '@/app/_components/ui/form'
 import { Input } from '@/app/_components/ui/input'
-import { NumericFormat } from 'react-number-format'
+import {
+    createProductSchema,
+    CreateProductSchema,
+} from '@/app/_actions/product/create-product/schemas'
+import { createProduct } from '@/app/_actions/product/create-product'
+import { useState } from 'react'
 
-const formSchema = z.object({
-    name: z
-        .string()
-        .trim()
-        .min(1, { message: 'O nome do produto é obrigatório.' }),
-    price: z
-        .number()
-        .min(0.01, { message: 'O preço do produto é obrigatório.' }),
-    stock: z.coerce
-        .number()
-        .positive({
-            message: 'A quantidade do produto deve ser positiva.',
-        })
-        .min(1, { message: 'A quantidade do produto é obrigatória.' }),
-})
+const CreateProductButton = () => {
+    const [dialogIsOpen, setDialogIsOpen] = useState(false)
 
-type FormSchema = z.infer<typeof formSchema>
-
-const AddProductButton = () => {
-    const form = useForm<FormSchema>({
+    const form = useForm<CreateProductSchema>({
         shouldUnregister: true,
-        resolver: zodResolver(formSchema),
+        resolver: zodResolver(createProductSchema),
         defaultValues: {
             name: '',
             price: 0,
@@ -55,12 +44,17 @@ const AddProductButton = () => {
         },
     })
 
-    const onSubmit = (values: FormSchema) => {
-        console.log(values)
+    const onSubmit = async (values: CreateProductSchema) => {
+        try {
+            await createProduct(values)
+            setDialogIsOpen(false)
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (
-        <Dialog>
+        <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
             <DialogTrigger asChild>
                 <Button className="gap-2">
                     <Plus />
@@ -68,15 +62,15 @@ const AddProductButton = () => {
                 </Button>
             </DialogTrigger>
             <DialogContent>
-                <DialogTitle>Cadastrar produto</DialogTitle>
-                <DialogDescription>
-                    Insira as informações abaixo
-                </DialogDescription>
-                <Form {...form}>
-                    <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-8"
-                    >
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8"
+                >
+                    <DialogTitle>Cadastrar produto</DialogTitle>
+                    <DialogDescription>
+                        Insira as informações abaixo
+                    </DialogDescription>
+                    <Form {...form}>
                         <FormField
                             control={form.control}
                             name="name"
@@ -142,13 +136,18 @@ const AddProductButton = () => {
                             <DialogClose asChild>
                                 <Button variant={'ghost'}>Cancelar</Button>
                             </DialogClose>
-                            <Button>Criar produto</Button>
+                            <Button disabled={form.formState.isSubmitting}>
+                                {form.formState.isSubmitting && (
+                                    <Loader2Icon className="animate-spin" />
+                                )}
+                                Criar produto
+                            </Button>
                         </DialogFooter>
-                    </form>
-                </Form>
+                    </Form>
+                </form>
             </DialogContent>
         </Dialog>
     )
 }
 
-export default AddProductButton
+export default CreateProductButton
