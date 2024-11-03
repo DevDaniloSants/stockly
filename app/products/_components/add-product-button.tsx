@@ -46,6 +46,7 @@ type FormSchema = z.infer<typeof formSchema>
 
 const AddProductButton = () => {
     const form = useForm<FormSchema>({
+        shouldUnregister: true,
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: '',
