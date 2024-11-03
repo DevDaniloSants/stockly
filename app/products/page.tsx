@@ -1,14 +1,13 @@
-import { Plus } from 'lucide-react'
-import { Button } from '../_components/ui/button'
-
 import { DataTable } from '../_components/ui/data-table'
 import { productsColums } from './_components/table-columns'
+import { cachedGetProducts } from '../_data-access/product/get-products'
+
+import AddProductButton from './_components/add-product-button'
+
+export const dynamic = 'force-dynamic'
 
 const ProductsPage = async () => {
-    const products = await fetch('http://localhost:3000/api/products').then(
-        (res) => res.json()
-    )
-
+    const products = await cachedGetProducts()
     return (
         <div className="roundend-lg m-8 w-full space-y-8 bg-white px-8 py-8">
             <div className="flex w-full items-center justify-between">
@@ -20,10 +19,7 @@ const ProductsPage = async () => {
                 </div>
 
                 <div className="self-end">
-                    <Button className="gap-2">
-                        <Plus />
-                        Novo produto
-                    </Button>
+                    <AddProductButton />
                 </div>
             </div>
 
