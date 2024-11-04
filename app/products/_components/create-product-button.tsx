@@ -66,10 +66,12 @@ const CreateProductButton = () => {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-8"
                 >
-                    <DialogTitle>Cadastrar produto</DialogTitle>
-                    <DialogDescription>
-                        Insira as informações abaixo
-                    </DialogDescription>
+                    <div className="space-y-2">
+                        <DialogTitle>Cadastrar produto</DialogTitle>
+                        <DialogDescription>
+                            Insira as informações abaixo
+                        </DialogDescription>
+                    </div>
                     <Form {...form}>
                         <FormField
                             control={form.control}
