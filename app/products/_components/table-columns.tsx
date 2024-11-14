@@ -20,6 +20,7 @@ import { Circle, ClipboardCopy, Ellipsis, SquarePen, Trash } from 'lucide-react'
 import DeleteProductDialogContent from './delete-dialog-content'
 import { Dialog, DialogTrigger } from '@/app/_components/ui/dialog'
 import UpsertProductDialogContent from './upsert-dialog-content'
+import { useState } from 'react'
 
 const getStatusLabel = (status: string) => {
     if (status === 'IN_STOCK') {
@@ -73,11 +74,22 @@ export const productsColums: ColumnDef<Product>[] = [
         accessorKey: 'actions',
         header: 'Ações',
         cell({ row }) {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const [editDialogOpen, setEditDialogOpen] = useState(false)
             const product = row.original
+            const defaultValues = {
+                id: product.id,
+                name: product.name,
+                price: Number(product.price),
+                stock: product.stock,
+            }
 
             return (
                 <AlertDialog>
-                    <Dialog>
+                    <Dialog
+                        open={editDialogOpen}
+                        onOpenChange={setEditDialogOpen}
+                    >
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost">
@@ -112,7 +124,10 @@ export const productsColums: ColumnDef<Product>[] = [
                                 </AlertDialogTrigger>
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        <UpsertProductDialogContent />
+                        <UpsertProductDialogContent
+                            defaultValues={defaultValues}
+                            onSuccess={() => setEditDialogOpen(false)}
+                        />
                         <DeleteProductDialogContent productId={product.id} />
                     </Dialog>
                 </AlertDialog>

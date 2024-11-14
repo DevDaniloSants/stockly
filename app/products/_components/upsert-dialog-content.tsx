@@ -1,10 +1,10 @@
 'use client'
 
-import { createProduct } from '@/app/_actions/product/create-product'
+import { upsertProduct } from '@/app/_actions/product/upsert-product'
 import {
-    createProductSchema,
-    CreateProductSchema,
-} from '@/app/_actions/product/create-product/schemas'
+    upsertProductSchema,
+    UpsertProductSchema,
+} from '@/app/_actions/product/upsert-product/schemas'
 import { Button } from '@/app/_components/ui/button'
 import {
     DialogClose,
@@ -30,34 +30,41 @@ import { NumericFormat } from 'react-number-format'
 
 interface UpsertProductDialogContentProps {
     onSuccess?: () => void
+    defaultValues?: UpsertProductSchema
 }
 
 const UpsertProductDialogContent = ({
     onSuccess,
+    defaultValues,
 }: UpsertProductDialogContentProps) => {
-    const form = useForm<CreateProductSchema>({
+    const form = useForm<UpsertProductSchema>({
         shouldUnregister: true,
-        resolver: zodResolver(createProductSchema),
-        defaultValues: {
+        resolver: zodResolver(upsertProductSchema),
+        defaultValues: defaultValues ?? {
             name: '',
             price: 0,
             stock: 1,
         },
     })
 
-    const onSubmit = async (values: CreateProductSchema) => {
+    const onSubmit = async (data: UpsertProductSchema) => {
         try {
-            await createProduct(values)
+            await upsertProduct({ ...data, id: defaultValues?.id })
             onSuccess?.()
         } catch (error) {
             console.error(error)
         }
     }
+
+    const isEditing = !!defaultValues
+
     return (
         <DialogContent>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="space-y-2">
-                    <DialogTitle>Cadastrar produto</DialogTitle>
+                    <DialogTitle>
+                        {isEditing ? 'Editar' : 'Criar'} produto
+                    </DialogTitle>
                     <DialogDescription>
                         Insira as informações abaixo
                     </DialogDescription>
@@ -130,7 +137,7 @@ const UpsertProductDialogContent = ({
                             {form.formState.isSubmitting && (
                                 <Loader2Icon className="animate-spin" />
                             )}
-                            Criar produto
+                            {isEditing ? 'Salvar' : 'Criar'} produto
                         </Button>
                     </DialogFooter>
                 </Form>
