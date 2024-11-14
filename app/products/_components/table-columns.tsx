@@ -18,6 +18,8 @@ import { Product } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { Circle, ClipboardCopy, Ellipsis, SquarePen, Trash } from 'lucide-react'
 import DeleteProductDialogContent from './delete-dialog-content'
+import { Dialog, DialogTrigger } from '@/app/_components/ui/dialog'
+import UpsertProductDialogContent from './upsert-dialog-content'
 
 const getStatusLabel = (status: string) => {
     if (status === 'IN_STOCK') {
@@ -75,37 +77,44 @@ export const productsColums: ColumnDef<Product>[] = [
 
             return (
                 <AlertDialog>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost">
-                                <Ellipsis size={16} />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuLabel>Ações</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                                className="gap-1.5"
-                                onClick={() =>
-                                    navigator.clipboard.writeText(product.id)
-                                }
-                            >
-                                <ClipboardCopy size={16} />
-                                Copiar ID
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="gap-1.5">
-                                <SquarePen size={16} />
-                                Editar
-                            </DropdownMenuItem>
-                            <AlertDialogTrigger asChild>
-                                <DropdownMenuItem className="gap-1.5">
-                                    <Trash size={16} />
-                                    Deletar
+                    <Dialog>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost">
+                                    <Ellipsis size={16} />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                    className="gap-1.5"
+                                    onClick={() =>
+                                        navigator.clipboard.writeText(
+                                            product.id
+                                        )
+                                    }
+                                >
+                                    <ClipboardCopy size={16} />
+                                    Copiar ID
                                 </DropdownMenuItem>
-                            </AlertDialogTrigger>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                    <DeleteProductDialogContent productId={product.id} />
+                                <DialogTrigger asChild>
+                                    <DropdownMenuItem className="gap-1.5">
+                                        <SquarePen size={16} />
+                                        Editar
+                                    </DropdownMenuItem>
+                                </DialogTrigger>
+                                <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem className="gap-1.5">
+                                        <Trash size={16} />
+                                        Deletar
+                                    </DropdownMenuItem>
+                                </AlertDialogTrigger>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        <UpsertProductDialogContent />
+                        <DeleteProductDialogContent productId={product.id} />
+                    </Dialog>
                 </AlertDialog>
             )
         },
