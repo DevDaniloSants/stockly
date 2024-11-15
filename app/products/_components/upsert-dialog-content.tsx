@@ -52,7 +52,16 @@ const UpsertProductDialogContent = ({
             await upsertProduct({ ...data, id: defaultValues?.id })
             onSuccess?.()
         } catch (error) {
-            console.error(error)
+            if (
+                error instanceof Error &&
+                error.message === 'A product with this name already exists.'
+            ) {
+                return form.setError('name', {
+                    type: 'custom',
+                    message: 'Já existe um produto cadastrado com esse nome',
+                })
+            }
+            return console.error(error)
         }
     }
 
@@ -82,6 +91,7 @@ const UpsertProductDialogContent = ({
                                         {...field}
                                     />
                                 </FormControl>
+
                                 <FormMessage />
                             </FormItem>
                         )}
