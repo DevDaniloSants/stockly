@@ -2,7 +2,7 @@ import { Button } from '../_components/ui/button'
 import { ComboboxOptions } from '../_components/ui/combobox'
 import { Sheet, SheetTrigger } from '../_components/ui/sheet'
 import { getProducts } from '../_data-access/product/get-products'
-import UpsertSaleSheetContent from './_components/UpsertSheetContent'
+import UpsertSaleSheetContent from './_components/upsert-sheet-content'
 
 const SalesPage = async () => {
     const products = await getProducts()
