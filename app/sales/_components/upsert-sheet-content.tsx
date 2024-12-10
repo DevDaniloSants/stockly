@@ -84,7 +84,22 @@ const UpsertSaleSheetContent = ({
             const existingProduct = currentProducts.find(
                 (product) => product.id === selectedProduct.id
             )
+
             if (existingProduct) {
+                const productIsOutOfStock =
+                    existingProduct?.quantity + data.quantity >
+                    selectedProduct.stock
+
+                if (productIsOutOfStock) {
+                    form.setError('quantity', {
+                        message: 'Quantidade indisponível no estoque',
+                    })
+
+                    return currentProducts
+                }
+
+                form.reset()
+
                 return currentProducts.map((product) => {
                     if (product.id === selectedProduct.id) {
                         return {
@@ -97,6 +112,18 @@ const UpsertSaleSheetContent = ({
                 })
             }
 
+            const productIsOutOfStock = data.quantity > selectedProduct.stock
+
+            if (productIsOutOfStock) {
+                form.setError('quantity', {
+                    message: 'Quantidade indisponível no estoque',
+                })
+
+                return currentProducts
+            }
+
+            form.reset()
+
             return [
                 ...currentProducts,
                 {
@@ -106,8 +133,6 @@ const UpsertSaleSheetContent = ({
                 },
             ]
         })
-
-        form.reset()
     }
 
     const totalPrice = useMemo(() => {
