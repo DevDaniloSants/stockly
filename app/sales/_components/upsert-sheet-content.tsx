@@ -17,6 +17,7 @@ import {
     SheetHeader,
     SheetTitle,
     SheetDescription,
+    SheetFooter,
 } from '@/app/_components/ui/sheet'
 import {
     Table,
@@ -30,13 +31,15 @@ import {
 } from '@/app/_components/ui/table'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Product } from '@prisma/client'
-import { PlusIcon } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { CheckIcon, PlusIcon } from 'lucide-react'
+import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { formatCurrency } from '../../_helpers/currency'
 import SaleDropDownMenu from './table-dropdown-menu'
+import { createSale } from '@/app/_actions/sale/create-sale'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
     productId: z.string().uuid({ message: 'O produto é obrigatório' }),
@@ -48,6 +51,7 @@ type FormSchema = z.infer<typeof formSchema>
 interface UpsertSaleSheetContentProps {
     products: Product[]
     productOptions: ComboboxOptions[]
+    setSheetIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
 interface SelectedProduct {
@@ -60,6 +64,7 @@ interface SelectedProduct {
 const UpsertSaleSheetContent = ({
     products,
     productOptions,
+    setSheetIsOpen,
 }: UpsertSaleSheetContentProps) => {
     const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
         []
@@ -145,6 +150,23 @@ const UpsertSaleSheetContent = ({
         setSelectedProducts((currentProducts) => {
             return currentProducts.filter((product) => product.id !== productId)
         })
+    }
+
+    const onSubmitSale = async () => {
+        try {
+            await createSale({
+                products: selectedProducts.map((product) => ({
+                    id: product.id,
+                    quantity: product.quantity,
+                })),
+            })
+
+            toast.success('Venda realizada com sucesso')
+            setSheetIsOpen(false)
+        } catch (error) {
+            toast.error('Erro ao realizar venda')
+            console.error(error)
+        }
     }
 
     return (
@@ -246,6 +268,16 @@ const UpsertSaleSheetContent = ({
                     </TableRow>
                 </TableFooter>
             </Table>
+            <SheetFooter className="pt-6">
+                <Button
+                    className="w-full gap-2"
+                    disabled={selectedProducts.length === 0}
+                    onClick={onSubmitSale}
+                >
+                    <CheckIcon size={20} />
+                    Finalizar venda
+                </Button>
+            </SheetFooter>
         </SheetContent>
     )
 }
