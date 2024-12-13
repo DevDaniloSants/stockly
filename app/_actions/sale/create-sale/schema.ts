@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const createSaleSchame = z.object({
+export const createSaleSchema = z.object({
     products: z.array(
         z.object({
             id: z.string().uuid(),
@@ -9,4 +9,4 @@ export const createSaleSchame = z.object({
     ),
 })
 
-export type CreateSaleSchema = z.infer<typeof createSaleSchame>
+export type CreateSaleSchema = z.infer<typeof createSaleSchema>
