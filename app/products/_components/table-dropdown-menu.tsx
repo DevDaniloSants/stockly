@@ -24,7 +24,7 @@ interface ProductActionsProps {
 }
 
 const ProductTableDropDownMenu = ({ product }: ProductActionsProps) => {
-    const [editDialogOpen, setEditDialogOpen] = useState(false)
+    const [editDialogIsOpen, setEditDialogIsOpen] = useState(false)
 
     const defaultValues = {
         id: product.id,
@@ -35,7 +35,7 @@ const ProductTableDropDownMenu = ({ product }: ProductActionsProps) => {
 
     return (
         <AlertDialog>
-            <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+            <Dialog open={editDialogIsOpen} onOpenChange={setEditDialogIsOpen}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost">
@@ -70,7 +70,7 @@ const ProductTableDropDownMenu = ({ product }: ProductActionsProps) => {
                 </DropdownMenu>
                 <UpsertProductDialogContent
                     defaultValues={defaultValues}
-                    onSuccess={() => setEditDialogOpen(false)}
+                    setDialogIsOpen={setEditDialogIsOpen}
                 />
                 <DeleteProductDialogContent productId={product.id!} />
             </Dialog>

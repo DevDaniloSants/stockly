@@ -1,30 +1,35 @@
 'use server'
 
 import { db } from '@/app/_lib/prisma'
-import { upsertProductSchema, UpsertProductSchema } from './schemas'
+import { upsertProductSchema } from './schemas'
 import { revalidatePath } from 'next/cache'
 
-export const upsertProduct = async (data: UpsertProductSchema) => {
-    upsertProductSchema.parse(data)
+import { actionClient } from '@/app/_lib/safe-action'
+import { returnValidationErrors } from 'next-safe-action'
 
-    if (!data.id) {
-        const product = await db.product.findFirst({
+export const upsertProduct = actionClient
+    .schema(upsertProductSchema)
+    .action(async ({ parsedInput: { id, ...data } }) => {
+        if (!id) {
+            const product = await db.product.findFirst({
+                where: {
+                    name: data.name,
+                },
+            })
+
+            if (product) {
+                returnValidationErrors(upsertProductSchema, {
+                    _errors: [`Product already exists.`],
+                })
+            }
+        }
+
+        await db.product.upsert({
+            update: data,
+            create: data,
             where: {
-                name: data.name,
+                id: id ?? '',
             },
         })
-
-        if (product) {
-            throw new Error('A product with this name already exists.')
-        }
-    }
-
-    await db.product.upsert({
-        update: data,
-        create: data,
-        where: {
-            id: data.id ?? '',
-        },
+        revalidatePath('/products')
     })
-    revalidatePath('/products')
-}

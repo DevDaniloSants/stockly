@@ -25,16 +25,20 @@ import { Input } from '@/app/_components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2Icon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { useAction } from 'next-safe-action/hooks'
+import { flattenValidationErrors } from 'next-safe-action'
 
 import { NumericFormat } from 'react-number-format'
+import { toast } from 'sonner'
+import { Dispatch, SetStateAction } from 'react'
 
 interface UpsertProductDialogContentProps {
-    onSuccess?: () => void
+    setDialogIsOpen: Dispatch<SetStateAction<boolean>>
     defaultValues?: UpsertProductSchema
 }
 
 const UpsertProductDialogContent = ({
-    onSuccess,
+    setDialogIsOpen,
     defaultValues,
 }: UpsertProductDialogContentProps) => {
     const form = useForm<UpsertProductSchema>({
@@ -47,22 +51,35 @@ const UpsertProductDialogContent = ({
         },
     })
 
-    const onSubmit = async (data: UpsertProductSchema) => {
-        try {
-            await upsertProduct({ ...data, id: defaultValues?.id })
-            onSuccess?.()
-        } catch (error) {
-            if (
-                error instanceof Error &&
-                error.message === 'A product with this name already exists.'
-            ) {
-                return form.setError('name', {
-                    type: 'custom',
-                    message: 'Já existe um produto cadastrado com esse nome',
+    const { execute: executeUpsertProduct } = useAction(upsertProduct, {
+        onError: ({ error: { validationErrors } }) => {
+            const flattenedErrors = flattenValidationErrors(validationErrors)
+
+            if (flattenedErrors) {
+                flattenedErrors.formErrors.forEach((error) => {
+                    switch (error) {
+                        case 'Product already exists.':
+                            form.setError('name', {
+                                type: 'custom',
+                                message:
+                                    'Já existe um produto cadastrado com esse nome',
+                            })
+                            break
+                        default:
+                            toast.error('Ocorreu um erro ao salvar o produto')
+                            break
+                    }
                 })
             }
-            return console.error(error)
-        }
+        },
+        onSuccess: () => {
+            toast.success('Produto salvo com sucesso')
+            setDialogIsOpen(false)
+        },
+    })
+
+    const onSubmit = async (data: UpsertProductSchema) => {
+        executeUpsertProduct({ ...data, id: defaultValues?.id })
     }
 
     const isEditing = !!defaultValues

@@ -10,10 +10,6 @@ import UpsertProductDialogContent from './upsert-dialog-content'
 const CreateProductButton = () => {
     const [dialogIsOpen, setDialogIsOpen] = useState(false)
 
-    const onSuccess = () => {
-        setDialogIsOpen(false)
-    }
-
     return (
         <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
             <DialogTrigger asChild>
@@ -22,7 +18,7 @@ const CreateProductButton = () => {
                     Novo produto
                 </Button>
             </DialogTrigger>
-            <UpsertProductDialogContent onSuccess={onSuccess} />
+            <UpsertProductDialogContent setDialogIsOpen={setDialogIsOpen} />
         </Dialog>
     )
 }
