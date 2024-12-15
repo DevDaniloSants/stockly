@@ -1,8 +1,12 @@
 import { ComboboxOptions } from '../_components/ui/combobox'
+import { DataTable } from '../_components/ui/data-table'
 import { getProducts } from '../_data-access/product/get-products'
+import { getSales } from '../_data-access/sale/get-sales'
 import CreateSaleButton from './_components/create-sale-button'
+import { saleColumns } from './_components/table-columns'
 
 const SalesPage = async () => {
+    const sales = await getSales()
     const products = await getProducts()
     const productOptions: ComboboxOptions[] = products.map((product) => {
         return {
@@ -25,7 +29,7 @@ const SalesPage = async () => {
                 />
             </div>
 
-            {/* <DataTable columns={productsColums} data={products} /> */}
+            <DataTable columns={saleColumns} data={sales} />
         </div>
     )
 }
