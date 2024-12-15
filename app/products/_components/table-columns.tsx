@@ -2,10 +2,10 @@
 
 import { Badge } from '@/app/_components/ui/badge'
 
-import { Product } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { Circle } from 'lucide-react'
 import ProductTableDropDownMenu from './table-dropdown-menu'
+import { ProductDto } from '@/app/_data-access/product/get-products'
 
 const getStatusLabel = (status: string) => {
     if (status === 'IN_STOCK') {
@@ -15,7 +15,7 @@ const getStatusLabel = (status: string) => {
     return 'Fora de estoque'
 }
 
-export const productsColums: ColumnDef<Product>[] = [
+export const productsColums: ColumnDef<ProductDto>[] = [
     {
         accessorKey: 'name',
         header: 'Produto',
@@ -44,7 +44,7 @@ export const productsColums: ColumnDef<Product>[] = [
             if (status === 'IN_STOCK') {
                 return (
                     <Badge
-                        variant={`${label === 'Em estoque' ? 'secondary' : 'default'}`}
+                        variant={`${label === 'Em estoque' ? 'default' : 'outline'}`}
                     >
                         <Circle size={10} className="fill-current" />
                         Em estoque
@@ -54,10 +54,10 @@ export const productsColums: ColumnDef<Product>[] = [
 
             return (
                 <Badge
-                    variant={`${label === 'Em estoque' ? 'secondary' : 'default'}`}
+                    variant={`${label === 'Fora de estoque' ? 'outline' : 'default'}`}
                 >
                     <Circle size={10} className="fill-current" />
-                    Esgotado
+                    Fora de estoque
                 </Badge>
             )
         },
@@ -65,10 +65,10 @@ export const productsColums: ColumnDef<Product>[] = [
     {
         accessorKey: 'actions',
         header: 'Ações',
-        cell({ row }) {
+        cell: ({ row }) => {
             const product = {
                 ...row.original,
-                price: Number(row.original.price),
+                price: row.original.price,
             }
 
             return <ProductTableDropDownMenu product={product} />

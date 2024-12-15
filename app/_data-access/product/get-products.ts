@@ -3,9 +3,18 @@ import 'server-only'
 import { db } from '@/app/_lib/prisma'
 import { Product } from '@prisma/client'
 
-export const getProducts = async (): Promise<Product[]> => {
-    const products = await db.product.findMany({})
-    const serializedProducts = JSON.parse(JSON.stringify(products))
+export interface ProductDto extends Product {
+    status: 'IN_STOCK' | 'OUT_OF_STOCK'
+}
 
-    return serializedProducts
+export const getProducts = async (): Promise<ProductDto[]> => {
+    const products = (await db.product.findMany({})).map((product) => {
+        const status = product.stock > 0 ? 'IN_STOCK' : 'OUT_OF_STOCK'
+        return {
+            ...product,
+            status,
+        }
+    })
+
+    return JSON.parse(JSON.stringify(products))
 }
