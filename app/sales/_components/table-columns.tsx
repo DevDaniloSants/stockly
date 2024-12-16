@@ -1,11 +1,11 @@
 'use client'
 
-import { Button } from '@/app/_components/ui/button'
 import { SaleDto } from '@/app/_data-access/sale/get-sales'
 import { formatCurrency } from '@/app/_helpers/currency'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { EllipsisIcon } from 'lucide-react'
+
+import SaleTableDropDownMenu from './table-dropdown-menu'
 
 export const saleColumns: ColumnDef<SaleDto>[] = [
     {
@@ -39,12 +39,8 @@ export const saleColumns: ColumnDef<SaleDto>[] = [
     },
     {
         header: 'Ações',
-        cell: () => {
-            return (
-                <Button variant="ghost" size="icon">
-                    <EllipsisIcon className="h-4 w-4" />
-                </Button>
-            )
+        cell: ({ row: { original: sale } }) => {
+            return <SaleTableDropDownMenu sale={sale} />
         },
     },
 ]

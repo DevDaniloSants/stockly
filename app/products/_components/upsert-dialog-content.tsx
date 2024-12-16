@@ -78,7 +78,7 @@ const UpsertProductDialogContent = ({
         },
     })
 
-    const onSubmit = async (data: UpsertProductSchema) => {
+    const onSubmit = (data: UpsertProductSchema) => {
         executeUpsertProduct({ ...data, id: defaultValues?.id })
     }
 

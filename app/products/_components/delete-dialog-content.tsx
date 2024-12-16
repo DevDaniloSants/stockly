@@ -26,7 +26,7 @@ const DeleteProductDialogContent = ({
             toast.error('Ocorreu um erro ao excluir o produto.')
         },
     })
-    const handleContinueClick = async () => {
+    const handleContinueClick = () => {
         deleteExecuteProduct({
             id: productId,
         })

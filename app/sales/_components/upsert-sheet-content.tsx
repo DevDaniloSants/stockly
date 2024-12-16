@@ -37,11 +37,12 @@ import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { formatCurrency } from '../../_helpers/currency'
-import SaleDropDownMenu from './table-dropdown-menu'
+
 import { createSale } from '@/app/_actions/sale/create-sale'
 import { toast } from 'sonner'
 import { useAction } from 'next-safe-action/hooks'
 import { flattenValidationErrors } from 'next-safe-action'
+import UpsertSaleDropDownMenu from './upsert-table-dropdown-menu'
 
 const formSchema = z.object({
     productId: z.string().uuid({ message: 'O produto é obrigatório' }),
@@ -166,7 +167,7 @@ const UpsertSaleSheetContent = ({
         })
     }
 
-    const onSubmitSale = async () => {
+    const onSubmitSale = () => {
         executeCreateSale({
             products: selectedProducts.map((product) => ({
                 id: product.id,
@@ -259,7 +260,7 @@ const UpsertSaleSheetContent = ({
                                 )}
                             </TableCell>
                             <TableCell>
-                                <SaleDropDownMenu
+                                <UpsertSaleDropDownMenu
                                     product={product}
                                     onDelete={onDelete}
                                 />
