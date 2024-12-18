@@ -2,7 +2,7 @@ import { ComboboxOptions } from '../_components/ui/combobox'
 import { DataTable } from '../_components/ui/data-table'
 import { getProducts } from '../_data-access/product/get-products'
 import { getSales } from '../_data-access/sale/get-sales'
-import CreateSaleButton from './_components/create-sale-button'
+import UpsertSaleButton from './_components/create-sale-button'
 import { saleColumns } from './_components/table-columns'
 
 const SalesPage = async () => {
@@ -14,6 +14,13 @@ const SalesPage = async () => {
             label: product.name,
         }
     })
+
+    const tableData = sales.map((sale) => ({
+        ...sale,
+        productOptions,
+        products,
+    }))
+
     return (
         <div className="roundend-lg m-8 w-full space-y-8 bg-white px-8 py-8">
             <div className="flex w-full items-center justify-between">
@@ -23,13 +30,13 @@ const SalesPage = async () => {
                     </span>
                     <h1 className="text-xl font-semibold">Vendas</h1>
                 </div>
-                <CreateSaleButton
+                <UpsertSaleButton
                     productOptions={productOptions}
                     products={products}
                 />
             </div>
 
-            <DataTable columns={saleColumns} data={sales} />
+            <DataTable columns={saleColumns} data={tableData} />
         </div>
     )
 }

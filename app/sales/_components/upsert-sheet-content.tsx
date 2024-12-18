@@ -30,7 +30,7 @@ import {
     TableRow,
 } from '@/app/_components/ui/table'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Product } from '@prisma/client'
+
 import { CheckIcon, PlusIcon } from 'lucide-react'
 import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 
@@ -38,24 +38,22 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { formatCurrency } from '../../_helpers/currency'
 
-import { createSale } from '@/app/_actions/sale/create-sale'
+import { upsertSale } from '@/app/_actions/sale/upsert-sale'
 import { toast } from 'sonner'
 import { useAction } from 'next-safe-action/hooks'
 import { flattenValidationErrors } from 'next-safe-action'
 import UpsertSaleDropDownMenu from './upsert-table-dropdown-menu'
+import { ProductDto } from '@/app/_data-access/product/get-products'
 
 const formSchema = z.object({
     productId: z.string().uuid({ message: 'O produto é obrigatório' }),
-    quantity: z.coerce.number().int().positive(),
+    quantity: z.coerce
+        .number()
+        .int()
+        .positive({ message: 'A quantidade deve ser maior que zero' }),
 })
 
 type FormSchema = z.infer<typeof formSchema>
-
-interface UpsertSaleSheetContentProps {
-    products: Product[]
-    productOptions: ComboboxOptions[]
-    setSheetIsOpen: Dispatch<SetStateAction<boolean>>
-}
 
 interface SelectedProduct {
     id: string
@@ -64,23 +62,37 @@ interface SelectedProduct {
     quantity: number
 }
 
+interface UpsertSaleSheetContentProps {
+    products: ProductDto[]
+    productOptions: ComboboxOptions[]
+    setSheetIsOpen: Dispatch<SetStateAction<boolean>>
+    defaultSelectedProducts?: SelectedProduct[]
+    saleId?: string
+}
+
 const UpsertSaleSheetContent = ({
+    saleId,
     products,
     productOptions,
     setSheetIsOpen,
+    defaultSelectedProducts,
 }: UpsertSaleSheetContentProps) => {
+    const isUpdated = !!saleId
+
     const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
-        []
+        defaultSelectedProducts ?? []
     )
 
-    const { execute: executeCreateSale } = useAction(createSale, {
+    const { execute: executeUpsertSale } = useAction(upsertSale, {
         onError: ({ error: { validationErrors, serverError } }) => {
             const flattenedErrors = flattenValidationErrors(validationErrors)
 
             toast.error(serverError ?? flattenedErrors.formErrors[0])
         },
         onSuccess: () => {
-            toast.success('Venda realizada com sucesso')
+            toast.success(
+                `Venda ${isUpdated ? 'editada' : 'realizada'} com sucesso`
+            )
             setSheetIsOpen(false)
         },
     })
@@ -168,7 +180,8 @@ const UpsertSaleSheetContent = ({
     }
 
     const onSubmitSale = () => {
-        executeCreateSale({
+        executeUpsertSale({
+            id: saleId,
             products: selectedProducts.map((product) => ({
                 id: product.id,
                 quantity: product.quantity,
@@ -179,7 +192,9 @@ const UpsertSaleSheetContent = ({
     return (
         <SheetContent className="!max-w-[700px]">
             <SheetHeader>
-                <SheetTitle>Adicionar venda</SheetTitle>
+                <SheetTitle>
+                    {isUpdated ? 'Editar' : 'Adicionar'} venda
+                </SheetTitle>
                 <SheetDescription>
                     Insira as informações da venda abaixo
                 </SheetDescription>
@@ -282,7 +297,7 @@ const UpsertSaleSheetContent = ({
                     onClick={onSubmitSale}
                 >
                     <CheckIcon size={20} />
-                    Finalizar venda
+                    {isUpdated ? 'Atualizar' : 'Finalizar'} venda
                 </Button>
             </SheetFooter>
         </SheetContent>
