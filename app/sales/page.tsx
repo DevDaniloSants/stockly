@@ -1,3 +1,9 @@
+import Header, {
+    HeaderLeft,
+    HeaderSubtitle,
+    HeaderTitle,
+    HeaderRight,
+} from '../_components/header'
 import { ComboboxOptions } from '../_components/ui/combobox'
 import { DataTable } from '../_components/ui/data-table'
 import { getProducts } from '../_data-access/product/get-products'
@@ -23,18 +29,18 @@ const SalesPage = async () => {
 
     return (
         <div className="roundend-lg m-8 w-full space-y-8 bg-white px-8 py-8">
-            <div className="flex w-full items-center justify-between">
-                <div className="space-y-1">
-                    <span className="text-xs font-semibold text-slate-500">
-                        Gestão de vendas
-                    </span>
-                    <h1 className="text-xl font-semibold">Vendas</h1>
-                </div>
-                <UpsertSaleButton
-                    productOptions={productOptions}
-                    products={products}
-                />
-            </div>
+            <Header>
+                <HeaderLeft>
+                    <HeaderSubtitle>Gestão de vendas</HeaderSubtitle>
+                    <HeaderTitle>Vendas</HeaderTitle>
+                </HeaderLeft>
+                <HeaderRight>
+                    <UpsertSaleButton
+                        productOptions={productOptions}
+                        products={products}
+                    />
+                </HeaderRight>
+            </Header>
 
             <DataTable columns={saleColumns} data={tableData} />
         </div>
