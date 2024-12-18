@@ -14,7 +14,7 @@ model Product {
   stock        Int
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  SaleProducts SaleProducts[]
+  saleProducts SaleProduct[]
 }
 
 model Sale {
@@ -22,10 +22,10 @@ model Sale {
   date         DateTime
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  SaleProducts SaleProducts[]
+  saleProducts SaleProduct[]
 }
 
-model SaleProducts {
+model SaleProduct {
   id        String   @id @default(uuid())
   saleId   String
   productId String

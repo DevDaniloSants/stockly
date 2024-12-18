@@ -17,12 +17,12 @@ export const upsertSale = actionClient
                     where: {
                         id,
                     },
-                    include: { SaleProducts: true },
+                    include: { saleProducts: true },
                 })
 
                 if (!existingSale) return
 
-                for (const product of existingSale.SaleProducts) {
+                for (const product of existingSale.saleProducts) {
                     const product1 = await trx.product.update({
                         where: { id: product.productId },
                         data: {
@@ -72,7 +72,7 @@ export const upsertSale = actionClient
                     })
                 }
 
-                await trx.saleProducts.create({
+                await trx.saleProduct.create({
                     data: {
                         saleId: sale.id,
                         productId: product.id,
