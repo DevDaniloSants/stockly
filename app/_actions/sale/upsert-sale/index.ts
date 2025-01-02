@@ -23,7 +23,7 @@ export const upsertSale = actionClient
                 if (!existingSale) return
 
                 for (const product of existingSale.saleProducts) {
-                    const product1 = await trx.product.update({
+                    await trx.product.update({
                         where: { id: product.productId },
                         data: {
                             stock: {
@@ -31,8 +31,6 @@ export const upsertSale = actionClient
                             },
                         },
                     })
-
-                    console.log(product1.stock + ' stock atualizado')
                 }
 
                 await trx.sale.delete({
@@ -94,7 +92,5 @@ export const upsertSale = actionClient
             }
         })
 
-        revalidatePath('/sales')
-        revalidatePath('/products')
-        revalidatePath('/')
+        revalidatePath('/', 'layout')
     })

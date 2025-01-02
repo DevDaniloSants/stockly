@@ -31,5 +31,5 @@ export const upsertProduct = actionClient
                 id: id ?? '',
             },
         })
-        revalidatePath('/products')
+        revalidatePath('/', 'layout')
     })
