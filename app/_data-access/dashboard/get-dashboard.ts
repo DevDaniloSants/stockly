@@ -54,7 +54,8 @@ export const getDashboard = async (): Promise<DashboardDto> => {
     const todayRevenueQuery = `
     SELECT SUM("unitPrice" * "quantity") as "todayRevenue"
     FROM "SaleProduct"
-    JOIN "Sale" ON "SaleProduct"."saleId" = "Sale"."id";
+    JOIN "Sale" ON "SaleProduct"."saleId" = "Sale"."id"
+    WHERE "Sale"."date" >= $1 AND "Sale"."date" <= $2;
     `
 
     const startOfDay = new Date(new Date().setHours(0, 0, 0, 0))
