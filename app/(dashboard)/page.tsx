@@ -5,18 +5,19 @@ import Header, {
 } from '../_components/header'
 import { getDashboard } from '../_data-access/dashboard/get-dashboard'
 
-import RevenueChart from './_components/revenue-chart'
 import MostSoldProductItem from './_components/most-sold-product-item'
 import TotalRevenueCard from './_components/total-revenue-card'
 import { Suspense } from 'react'
-import SummaryCardSkeleton from './_components/summary-card-skeleton'
 import TodayRevenueCard from './_components/today-revenue-card'
 import TotalSalesCard from './_components/total-sales-card'
 import TotalStockCard from './_components/total-stock-card'
 import TotalProductsCard from './_components/total-products-card'
+import { SummaryCardSkeleton } from './_components/summary-card'
+import Last14DaysRevenueCard from './_components/last-14-days-revenue-card'
+import { Skeleton } from '../_components/ui/skeleton'
 
 const Home = async () => {
-    const { totalLast14DaysRevenue, mostSoldProducts } = await getDashboard()
+    const { mostSoldProducts } = await getDashboard()
     return (
         <div className="m-8 flex w-full flex-col space-y-8 rounded-lg px-8 py-8">
             <Header>
@@ -46,13 +47,13 @@ const Home = async () => {
             </div>
 
             <div className="grid min-h-0 grid-cols-3 gap-6">
-                <div className="col-span-2 flex h-full flex-col overflow-hidden rounded-xl bg-white p-6">
-                    <p className="text-lg font-semibold text-slate-900">
-                        Receita
-                    </p>
-                    <p className="text-sm text-slate-400">Últimos 14 dias</p>
-                    <RevenueChart data={totalLast14DaysRevenue} />
-                </div>
+                <Suspense
+                    fallback={
+                        <Skeleton className="col-span-2 rounded-xl bg-white" />
+                    }
+                >
+                    <Last14DaysRevenueCard />
+                </Suspense>
 
                 <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white">
                     <p className="px-6 pt-6 text-lg font-semibold text-slate-900">
