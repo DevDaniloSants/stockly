@@ -1,3 +1,4 @@
+import 'server-only'
 import { db } from '@/app/_lib/prisma'
 
 export const getTodayRevenue = async (): Promise<number> => {
@@ -17,5 +18,5 @@ export const getTodayRevenue = async (): Promise<number> => {
         endOfDay
     )
 
-    return todayRevenue[0].todayRevenue
+    return JSON.parse(JSON.stringify(todayRevenue[0].todayRevenue))
 }

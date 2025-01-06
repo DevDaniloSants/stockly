@@ -1,3 +1,4 @@
+import 'server-only'
 import { db } from '@/app/_lib/prisma'
 
 export const getTotalRevenue = async (): Promise<number> => {
@@ -10,5 +11,5 @@ export const getTotalRevenue = async (): Promise<number> => {
     const totalRevenue =
         await db.$queryRawUnsafe<{ totalRevenue: number }[]>(totalRevenueQuery)
 
-    return totalRevenue[0].totalRevenue ?? 0
+    return JSON.parse(JSON.stringify(totalRevenue[0].totalRevenue))
 }
