@@ -1,4 +1,4 @@
-import { CircleDollarSign, Package, ShoppingBasketIcon } from 'lucide-react'
+import { Package, ShoppingBasketIcon } from 'lucide-react'
 import Header, {
     HeaderLeft,
     HeaderSubtitle,
@@ -18,10 +18,10 @@ import TotalRevenueCard from './_components/total-revenue-card'
 import { Suspense } from 'react'
 import SummaryCardSkeleton from './_components/summary-card-skeleton'
 import TodayRevenueCard from './_components/today-revenue-card'
+import TotalSalesCard from './_components/total-sales-card'
 
 const Home = async () => {
     const {
-        totalSales,
         totalStock,
         totalProducts,
         totalLast14DaysRevenue,
@@ -44,13 +44,9 @@ const Home = async () => {
                 </Suspense>
             </div>
             <div className="grid grid-cols-3 gap-6">
-                <SummaryCard>
-                    <SummaryCardIcon>
-                        <CircleDollarSign />
-                    </SummaryCardIcon>
-                    <SummaryCardTitle>Vendas totais</SummaryCardTitle>
-                    <SummaryCardValue>{totalSales}</SummaryCardValue>
-                </SummaryCard>
+                <Suspense fallback={<SummaryCardSkeleton />}>
+                    <TotalSalesCard />
+                </Suspense>
                 <SummaryCard>
                     <SummaryCardIcon>
                         <Package />
