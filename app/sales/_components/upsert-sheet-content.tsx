@@ -84,6 +84,7 @@ const UpsertSaleSheetContent = ({
     const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
         defaultSelectedProducts ?? []
     )
+    const [shouldResetForm, setShouldResetForm] = useState<boolean>(false)
 
     const { execute: executeUpsertSale } = useAction(upsertSale, {
         onError: ({ error: { validationErrors, serverError } }) => {
@@ -118,6 +119,13 @@ const UpsertSaleSheetContent = ({
         setSelectedProducts(defaultSelectedProducts ?? [])
     }, [defaultSelectedProducts])
 
+    useEffect(() => {
+        if (shouldResetForm) {
+            form.reset()
+            setShouldResetForm(false)
+        }
+    }, [shouldResetForm, form])
+
     const onSubmit = (data: FormSchema) => {
         const selectedProduct = products.find(
             (product) => product.id === data.productId
@@ -143,7 +151,7 @@ const UpsertSaleSheetContent = ({
                     return currentProducts
                 }
 
-                form.reset()
+                setShouldResetForm(true)
 
                 return currentProducts.map((product) => {
                     if (product.id === selectedProduct.id) {
@@ -167,7 +175,7 @@ const UpsertSaleSheetContent = ({
                 return currentProducts
             }
 
-            form.reset()
+            setShouldResetForm(true)
 
             return [
                 ...currentProducts,
