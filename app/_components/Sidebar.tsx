@@ -19,6 +19,12 @@ import {
 import { Badge } from './ui/badge'
 import { usePathname } from 'next/navigation'
 import { useIsMobile } from '../_hooks/use-mobile'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from './ui/tooltip'
 
 const items = [
     {
@@ -61,17 +67,32 @@ const AppSidebar = () => {
                     <SidebarGroupContent>
                         <SidebarMenu className="space-y-1">
                             {items.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton
-                                        asChild
-                                        isActive={pathname === item.url}
-                                    >
-                                        <a href={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
-                                        </a>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
+                                <TooltipProvider key={item.title}>
+                                    <Tooltip>
+                                        <TooltipTrigger className="relative">
+                                            <SidebarMenuItem>
+                                                <SidebarMenuButton
+                                                    asChild
+                                                    isActive={
+                                                        pathname === item.url
+                                                    }
+                                                >
+                                                    <a href={item.url}>
+                                                        <item.icon />
+                                                        <span>
+                                                            {item.title}
+                                                        </span>
+                                                    </a>
+                                                </SidebarMenuButton>
+                                            </SidebarMenuItem>
+                                        </TooltipTrigger>
+                                        {!isMobile && !open && (
+                                            <TooltipContent className="absolute left-5 top-0">
+                                                {item.title}
+                                            </TooltipContent>
+                                        )}
+                                    </Tooltip>
+                                </TooltipProvider>
                             ))}
                         </SidebarMenu>
                     </SidebarGroupContent>
