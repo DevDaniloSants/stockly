@@ -25,7 +25,7 @@ const Home = async () => {
                     <HeaderTitle>Dashboard</HeaderTitle>
                 </HeaderLeft>
             </Header>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <Suspense fallback={<SummaryCardSkeleton />}>
                     <TotalRevenueCard />
                 </Suspense>
@@ -33,7 +33,7 @@ const Home = async () => {
                     <TodayRevenueCard />
                 </Suspense>
             </div>
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                 <Suspense fallback={<SummaryCardSkeleton />}>
                     <TotalSalesCard />
                 </Suspense>
@@ -45,16 +45,26 @@ const Home = async () => {
                 </Suspense>
             </div>
 
-            <div className="grid min-h-0 grid-cols-3 gap-6">
+            <div className="grid min-h-0 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 <Suspense
                     fallback={
-                        <Skeleton className="col-span-2 rounded-xl bg-white" />
+                        <div className="relative h-52 w-full rounded-xl bg-white md:col-span-2 lg:col-span-2">
+                            <div className="space-y-2 p-5">
+                                <Skeleton className="h-6 w-36 bg-gray-200" />
+                                <Skeleton className="h-4 w-44 bg-gray-200" />
+                            </div>
+                            <Skeleton className="absolute bottom-4 right-6 h-1/2 w-10 bg-gray-200" />
+                            <Skeleton className="absolute bottom-4 right-20 h-1/4 w-10 bg-gray-200" />
+                            <Skeleton className="absolute bottom-4 right-[136px] h-[15%] w-10 bg-gray-200" />
+                        </div>
                     }
                 >
                     <Last14DaysRevenueCard />
                 </Suspense>
                 <Suspense fallback={<MostSoldProductsSkeleton />}>
-                    <MostSoldProductsCard />
+                    <div className="col-span-2 md:col-span-2 lg:col-span-1">
+                        <MostSoldProductsCard />
+                    </div>
                 </Suspense>
             </div>
         </div>

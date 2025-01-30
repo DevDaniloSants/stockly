@@ -4,7 +4,7 @@ import MostSoldProductItem from './most-sold-product-item'
 const MostSoldProductsCard = async () => {
     const mostSoldProducts = await getMostSoldProducts()
     return (
-        <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white">
+        <div className="flex h-full w-full flex-col overflow-hidden rounded-xl bg-white">
             <p className="px-6 pt-6 text-lg font-semibold text-slate-900">
                 Produtos mais vendidos
             </p>

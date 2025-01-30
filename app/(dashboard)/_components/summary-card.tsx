@@ -25,8 +25,8 @@ export const SummaryCardSkeleton = () => {
     return (
         <div className="space-y-2 rounded-xl bg-white p-6">
             <Skeleton className="flex h-9 w-9 rounded-md bg-gray-200" />
-            <Skeleton className="h-5 w-[86.26px] rounded-md bg-gray-200" />
-            <Skeleton className="h-8 w-48 rounded-md bg-gray-200" />
+            <Skeleton className="h-5 w-[40%] max-w-[86.26px] rounded-md bg-gray-200" />
+            <Skeleton className="h-8 w-[20%] min-w-[30px] rounded-md bg-gray-200" />
         </div>
     )
 }

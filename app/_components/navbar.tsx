@@ -8,7 +8,7 @@ const Navbar = () => {
 
     if (isMobile) {
         return (
-            <nav className="flex h-12 w-full items-center justify-between bg-white px-4 sm:hidden">
+            <nav className="flex h-12 w-full items-center justify-between bg-white px-4">
                 <h1>Stockly</h1>
                 <SidebarTrigger />
             </nav>
