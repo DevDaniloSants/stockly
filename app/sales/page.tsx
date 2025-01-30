@@ -6,6 +6,7 @@ import Header, {
 } from '../_components/header'
 import { ComboboxOptions } from '../_components/ui/combobox'
 import { DataTable } from '../_components/ui/data-table'
+import { SidebarTrigger } from '../_components/ui/sidebar'
 import { getProducts } from '../_data-access/product/get-products'
 import { getSales } from '../_data-access/sale/get-sales'
 import UpsertSaleButton from './_components/create-sale-button'
@@ -31,6 +32,7 @@ const SalesPage = async () => {
         <div className="roundend-lg m-8 w-full space-y-8 overflow-auto bg-white px-8 py-8">
             <Header>
                 <HeaderLeft>
+                    <SidebarTrigger />
                     <HeaderSubtitle>Gestão de vendas</HeaderSubtitle>
                     <HeaderTitle>Vendas</HeaderTitle>
                 </HeaderLeft>

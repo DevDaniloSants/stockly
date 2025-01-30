@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Sidebar from './_components/Sidebar'
+import AppSidebar from './_components/Sidebar'
 import { Toaster } from 'sonner'
+import { SidebarProvider } from './_components/ui/sidebar'
+import Navbar from './_components/navbar'
 
 const inter = Inter({
     subsets: ['latin'],
@@ -20,13 +22,16 @@ export default function RootLayout({
     children: React.ReactNode
 }>) {
     return (
-        <html lang="en">
+        <html lang="pt-br">
             <body className={`${inter.className} antialiased`}>
-                <div className="flex h-full">
-                    <Sidebar />
-                    {children}
-                </div>
-                <Toaster />
+                <SidebarProvider>
+                    <AppSidebar />
+                    <div className="flex w-full flex-col">
+                        <Navbar />
+                        <div className="flex justify-center">{children}</div>
+                    </div>
+                    <Toaster />
+                </SidebarProvider>
             </body>
         </html>
     )

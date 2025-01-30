@@ -18,7 +18,7 @@ import MostSoldProductsSkeleton from './_components/most-sold-products-skeleton'
 
 const Home = async () => {
     return (
-        <div className="m-8 flex w-full flex-col space-y-8 rounded-lg px-8 py-8">
+        <div className="flex w-full flex-col space-y-8 rounded-lg px-8 py-8">
             <Header>
                 <HeaderLeft>
                     <HeaderSubtitle>Dashboard</HeaderSubtitle>
