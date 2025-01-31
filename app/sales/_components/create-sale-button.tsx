@@ -20,7 +20,7 @@ const UpsertSaleButton = (props: UpsertSaleButtonProps) => {
     return (
         <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
             <SheetTrigger asChild>
-                <Button className="gap-2">
+                <Button className="w-full gap-2">
                     <PlusIcon size={20} /> Adicionar venda
                 </Button>
             </SheetTrigger>
