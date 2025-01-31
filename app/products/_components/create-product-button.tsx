@@ -13,7 +13,7 @@ const CreateProductButton = () => {
     return (
         <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
             <DialogTrigger asChild>
-                <Button className="gap-2">
+                <Button className="w-full gap-2">
                     <Plus />
                     Novo produto
                 </Button>

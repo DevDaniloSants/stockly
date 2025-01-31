@@ -13,7 +13,7 @@ import Header, {
 const ProductsPage = async () => {
     const products = await getProducts()
     return (
-        <div className="roundend-lg m-8 w-full space-y-8 overflow-auto bg-white px-8 py-8">
+        <div className="roundend-lg m-8 w-full max-w-[1200px] space-y-8 bg-white p-8">
             <Header>
                 <HeaderLeft>
                     <HeaderSubtitle>Gestão de produtos</HeaderSubtitle>
@@ -24,7 +24,9 @@ const ProductsPage = async () => {
                 </HeaderRight>
             </Header>
 
-            <DataTable columns={productsColums} data={products} />
+            <div className="overflow-x-auto">
+                <DataTable columns={productsColums} data={products} />
+            </div>
         </div>
     )
 }

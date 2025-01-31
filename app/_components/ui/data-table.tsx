@@ -32,8 +32,8 @@ export function DataTable<TData, TValue>({
     })
 
     return (
-        <div className="rounded-md border">
-            <Table>
+        <div className="overflow-auto rounded-md border">
+            <Table className="relative">
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({
                                 colSpan={columns.length}
                                 className="h-24 text-center"
                             >
-                                No results.
+                                Nenhum produto cadastrado.
                             </TableCell>
                         </TableRow>
                     )}

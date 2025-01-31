@@ -23,14 +23,18 @@ export const HeaderLeft = ({ children, className }: HeaderProps) => {
 }
 
 export const HeaderRight = ({ children, className }: HeaderProps) => {
-    return <div className={cn('self-end', className)}>{children}</div>
+    return (
+        <div className={cn('ml-auto w-full sm:w-auto', className)}>
+            {children}
+        </div>
+    )
 }
 
 const Header = ({ children, className }: HeaderProps) => {
     return (
         <div
             className={cn(
-                'flex w-full items-center justify-between',
+                'flex w-full flex-wrap items-center gap-2 sm:gap-0',
                 className
             )}
         >
