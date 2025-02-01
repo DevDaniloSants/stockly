@@ -10,7 +10,9 @@ const MostSoldProductItem = ({ product }: MostSoldProductProps) => {
     return (
         <div className="flex items-center justify-between p-2 transition-all duration-500 hover:bg-slate-100">
             <div className="space-y-[6px]">
-                <p className="font-semibold text-slate-900">{product.name}</p>
+                <p className="w-20 truncate text-xs font-semibold text-slate-900 md:w-40 md:truncate md:text-base">
+                    {product.name}
+                </p>
                 <p className="font-medium text-slate-500">
                     {formatCurrency(product.price)}
                 </p>

@@ -9,6 +9,13 @@ export const productsColums: ColumnDef<ProductDto>[] = [
     {
         accessorKey: 'name',
         header: 'Produto',
+        cell: ({
+            row: {
+                original: { name },
+            },
+        }) => {
+            return <p className="w-52 truncate">{name}</p>
+        },
     },
     {
         accessorKey: 'price',

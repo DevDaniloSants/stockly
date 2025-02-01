@@ -18,6 +18,13 @@ export const saleColumns: ColumnDef<SaleTableColumns>[] = [
     {
         accessorKey: 'productsName',
         header: 'Produtos',
+        cell: ({ row: { original } }) => {
+            return (
+                <p className="flex min-w-40 flex-nowrap">
+                    {original.productsName}
+                </p>
+            )
+        },
     },
     {
         accessorKey: 'totalProducts',

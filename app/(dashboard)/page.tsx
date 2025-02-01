@@ -45,10 +45,10 @@ const Home = async () => {
                 </Suspense>
             </div>
 
-            <div className="grid min-h-0 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 <Suspense
                     fallback={
-                        <div className="relative h-52 w-full rounded-xl bg-white md:col-span-2 lg:col-span-2">
+                        <div className="relative h-full w-full rounded-xl bg-white md:col-span-2 lg:col-span-2">
                             <div className="space-y-2 p-5">
                                 <Skeleton className="h-6 w-36 bg-gray-200" />
                                 <Skeleton className="h-4 w-44 bg-gray-200" />
