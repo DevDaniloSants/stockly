@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📦 Stockly
 
-## Getting Started
+Stockly é um sistema de gerenciamento de estoque projetado para otimizar o controle de produtos e vendas. Com uma interface intuitiva e eficiente, permite o cadastro ágil de produtos, atualização em tempo real do estoque, registro de vendas e análise detalhada de desempenho. Desenvolvido para solucionar desafios reais de gestão.
 
-First, run the development server:
+## 🚀 Tecnologias Utilizadas
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **React.js** — Biblioteca para construção de interfaces de usuário.
+- **Next.js** — Framework para renderização do lado do servidor e navegação otimizada.
+- **TypeScript** — Tipagem estática para maior segurança e produtividade no desenvolvimento.
+- **Tailwind CSS** — Estilização moderna e responsiva utilizando classes utilitárias.
+- **ShadCN** — Componentes UI acessíveis e de alta qualidade para React.
+- **Prisma** — ORM para modelagem e comunicação com o banco de dados.
+- **PostgreSQL** — Banco de dados relacional robusto e escalável.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Ferramentas de Qualidade de Código
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Husky** — Controle de hooks para garantir qualidade no processo de commit.
+- **lint-staged** — Lint automático nos arquivos alterados antes do commit.
+- **Prettier** — Padronização do estilo do código.
+- **ESLint** — Linting para encontrar e corrigir problemas no código.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📌 Funcionalidades
 
-## Learn More
+- 🔄 Cadastro e atualização de produtos com informações detalhadas.
+- 📊 Controle em tempo real do estoque.
+- 📝 Registro de vendas e acompanhamento de movimentações.
+- 📈 Relatórios e gráficos de análise de desempenho.
+- 🔒 Controle de acesso para funcionalidades administrativas.
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 👤 Autor
+<table> <tr> <td align="center"> <img src="https://avatars.githubusercontent.com/u/152008168?s=400&u=710379e70ac9c4490d3044ffd12a47092b993f76&v=4" width="100px;" alt="Foto de Danilo Santos no GitHub"/><br> <sub> <b>Danilo Santos</b> </sub> </a> </td> </tr> </table>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+Desenvolvido com ❤️ por Danilo Santos.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
